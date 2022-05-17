@@ -1,0 +1,24 @@
+extends Node2D
+
+const NUM_OF_STEPS = 300 # how many steps the walker will take, the bigger the number the bigger the map
+
+var borders = Rect2(1, 1, 38, 21) # 2 tile border in a 38 x 21 grid (minus the border)
+
+onready var tile_map = $TileMap
+
+func _ready():
+	randomize() # set random seed
+	generate_leve()
+	
+func generate_leve():
+	var walker = Walker.new(Vector2(19, 11), borders) # 19, 11 are half of the grid in 'borders'
+	var map = walker.walk(NUM_OF_STEPS)
+	walker.queue_free()
+	
+	for location in map:
+		tile_map.set_cellv(location, -1) # erase the tile
+	tile_map.update_bitmask_region(borders.position, borders.end)
+	
+func _input(event):
+	if event.is_action_pressed("ui_accept"):
+		get_tree().reload_current_scene()
