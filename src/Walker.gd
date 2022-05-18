@@ -9,6 +9,7 @@ var direction = Vector2.RIGHT # current walker direction
 var borders = Rect2() # keeps track of borders
 var step_hist = [] # keeps track of last steps
 var steps_since_turn = 0 # used to make sure there arent any insanely long hallways
+var rooms =  [] # keeps track of rooms, used to spawn exit door
 
 func _init(starting_pos, new_borders):
 	assert(new_borders.has_point(starting_pos))
@@ -17,7 +18,7 @@ func _init(starting_pos, new_borders):
 	borders = new_borders
 	
 func walk(steps): # returns step history
-	create_room(position)
+	place_room(position)
 	for step in steps:
 		if randf() <= 0.5 and steps_since_turn >= MAX_STEPS_BEFORE_TURN: # 25% chance to change directions
 			change_direction()
@@ -37,7 +38,7 @@ func step():
 		return false	
 
 func change_direction():
-	create_room(position)
+	place_room(position)
 	steps_since_turn = 0
 	var directions = DIRECTIONS.duplicate()
 	directions.erase(direction)
@@ -46,28 +47,28 @@ func change_direction():
 	
 	while not borders.has_point(position + direction): # use new direction until one is valid
 		direction = directions.pop_front()
-		
-func create_room(pos):
+
+func create_room(pos, size):
+	return {position = pos, size = size}
+	
+
+func place_room(pos):
 	var size = Vector2(rand_range(1, 4), rand_range(1, 4))
 	var top_left_corner = (position - size/2).ceil()
-	
+	rooms.append(create_room(pos, size))
 	for y in size.y:
 		for x in size.x:
 			var new_step = top_left_corner + Vector2(x, y)
 			if borders.has_point(new_step):
 				step_hist.append(new_step)
-				
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+func get_end_room(): # loops over all rooms and returns the one furthest from the starting room 
+	var end_room = rooms.pop_front()
+	var starting_position = step_hist.front() 
+	for room in rooms:
+		if starting_position.distance_to(room.position) > starting_position.distance_to(end_room.position):
+			end_room = room
+	return end_room
 	
 	
 	
