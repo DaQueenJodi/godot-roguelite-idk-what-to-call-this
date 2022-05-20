@@ -1,13 +1,16 @@
 extends Node2D
 
 const NUM_OF_STEPS = 300 # how many steps the walker will take, the bigger the number the bigger the map
-const Player = preload("res://src/Player.tscn")
-const ExitDoor = preload("res://src/ExitDoor.tscn")
+const Player = preload("res://src/Actors/Player.tscn")
+const ExitDoor = preload("res://src/Objects/ExitDoor.tscn")
+const BasicEnemy = preload("res://src/Actors/BasicEnemy.tscn")
 
 var borders = Rect2(1, 1, 38, 21) # 2 tile border in a 38 x 21 grid (minus the border)
 
-onready var tile_map = $TileMap
+onready var inside_tiles = $Navigation2D/InsideTiles # path
+onready var outside_tiles = $OutsideTiles # outside
 
+onready var nav = $Navigation2D
 
 
 func _ready():
@@ -28,12 +31,21 @@ func generate_leve():
 	
 	exit_door.connect("leaving_level", self, "reload")
 	
+	# spawn enemy in random tile
+	for i in range(4):
+		var basic_enemy = BasicEnemy.instance()
+		add_child(basic_enemy)
+		basic_enemy.nav = nav
+		basic_enemy.player = player
+		basic_enemy.position = map[rand_range(0, len(map))] * 32
+	
+	
 	
 	walker.queue_free()
 	
 	for location in map:
-		tile_map.set_cellv(location, -1) # erase the tile
-	tile_map.update_bitmask_region(borders.position, borders.end)
+		outside_tiles.set_cellv(location, -1) # erase the tile
+	outside_tiles.update_bitmask_region(borders.position, borders.end)
 
 func reload():
 	get_tree().reload_current_scene()
