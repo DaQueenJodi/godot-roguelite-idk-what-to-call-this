@@ -8,7 +8,7 @@ const BasicEnemy = preload("res://src/Actors/BasicEnemy.tscn")
 var borders = Rect2(1, 1, 38, 21) # 2 tile border in a 38 x 21 grid (minus the border)
 
 onready var inside_tiles = $Navigation2D/InsideTiles # path
-onready var outside_tiles = $OutsideTiles # outside
+onready var outside_tiles = $Navigation2D/OutsideTiles # outside
 
 onready var nav = $Navigation2D
 

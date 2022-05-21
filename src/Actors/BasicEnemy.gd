@@ -20,11 +20,10 @@ func move_to_target():
 	else:
 		var direction = global_position.direction_to(path[0])
 		velocity = direction * speed
-		print(velocity)
 		velocity = move_and_slide(velocity)
 
 func get_target_path(target_pos):
-	path = nav.get_simple_path(global_position, target_pos, true)
+	path = nav.get_simple_path(global_position, target_pos, false)
 
 
 func _on_Timer_timeout() -> void:
