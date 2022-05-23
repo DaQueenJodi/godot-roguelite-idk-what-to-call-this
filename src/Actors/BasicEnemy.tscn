@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/BasicEnemy.png" type="Texture" id=1]
+[ext_resource path="res://assets/actors/BasicEnemy.png" type="Texture" id=1]
 [ext_resource path="res://src/Actors/BasicEnemy.gd" type="Script" id=2]
 [ext_resource path="res://src/PlayerDetector.tscn" type="PackedScene" id=3]
 

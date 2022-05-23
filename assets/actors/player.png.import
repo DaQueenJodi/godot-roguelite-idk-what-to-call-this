@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/BasicEnemy.png-a0972dd302f1b41231e0ec598e65fabb.stex"
+path="res://.import/player.png-35506cc633b2d4d87014f6beac201485.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/BasicEnemy.png"
-dest_files=[ "res://.import/BasicEnemy.png-a0972dd302f1b41231e0ec598e65fabb.stex" ]
+source_file="res://assets/actors/player.png"
+dest_files=[ "res://.import/player.png-35506cc633b2d4d87014f6beac201485.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true
