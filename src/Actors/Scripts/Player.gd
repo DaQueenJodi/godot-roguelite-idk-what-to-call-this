@@ -11,8 +11,8 @@ func _handle_movement():
 	
 func _get_velocity(direction):
 	return Vector2(
-		speed.x * direction.x,
-		speed.y * direction.y
+		speed * direction.x,
+		speed * direction.y
 	)
 	
 	

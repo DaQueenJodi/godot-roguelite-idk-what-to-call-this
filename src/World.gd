@@ -1,5 +1,6 @@
 extends Node2D
 
+const NUM_ENEMIES: = 1
 const NUM_OF_STEPS: = 300 # how many steps the walker will take, the bigger the number the bigger the map
 const Player: = preload("res://src/Actors/Player.tscn")
 const ExitDoor: = preload("res://src/Objects/ExitDoor.tscn")
@@ -32,7 +33,7 @@ func generate_leve() -> void:
 	exit_door.connect("leaving_level", self, "reload")
 	
 	# spawn enemy in random tile
-	for i in range(4):
+	for i in range(NUM_ENEMIES):
 		var basic_enemy: = BasicEnemy.instance()
 		add_child(basic_enemy)
 		basic_enemy.nav = nav
