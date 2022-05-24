@@ -1,5 +1,17 @@
 extends Actor
 
+onready var health_bar: = get_node("../HUD/HealthBar")
+
+
+func take_damage(dmg: int) -> void:
+	health -= dmg
+	health_bar.update_health(health)
+	if health <= 0:
+		queue_free()
+func _ready() -> void:
+	health_bar.set_max_health(health)
+	health_bar.update_health(health)
+
 func _physics_process(_delta: float) -> void:
 	_handle_movement()
 	_velocity = move_and_slide(_velocity)

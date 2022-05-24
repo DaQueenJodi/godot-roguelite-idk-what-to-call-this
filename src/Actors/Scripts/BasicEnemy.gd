@@ -1,6 +1,10 @@
 extends Actor
 
 
+
+export var contact_damage = 10;
+
+
 onready var health_bar = $HealthBar
 
 var path: = []
@@ -9,9 +13,11 @@ var nav: Navigation2D = null
 var player: KinematicBody2D = null
 
 func take_damage(dmg: int) -> void:
-	print("took damage")
 	health -= dmg
 	health_bar.update_health(health)
+	if health <= 0:
+		queue_free()		
+	
 	
 
 func _ready() -> void:
@@ -21,8 +27,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	if health <= 0:
-		queue_free()
 		
 	
 	if path.size() > 0:
@@ -44,3 +48,9 @@ func get_target_path(target_pos: Vector2):
 func _on_Timer_timeout() -> void:
 	if player != null:
 		get_target_path(player.global_position)
+
+
+
+func _on_Area2D_body_entered(body: KinematicBody2D) -> void:
+	body.take_damage(contact_damage)
+	print("welp")
