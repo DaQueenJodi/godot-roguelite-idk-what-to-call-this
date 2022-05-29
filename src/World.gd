@@ -1,12 +1,16 @@
 extends Node2D
 
+
+export var GRID_X = 18
+export var GRID_Y = 31
+
 const NUM_ENEMIES: = 1
 const NUM_OF_STEPS: = 300 # how many steps the walker will take, the bigger the number the bigger the map
 const Player: = preload("res://src/Actors/Player.tscn")
 const ExitDoor: = preload("res://src/Objects/ExitDoor.tscn")
 const BasicEnemy: = preload("res://src/Actors/BasicEnemy.tscn")
 
-var borders: = Rect2(1, 1, 38, 21) # 2 tile border in a 38 x 21 grid (minus the border)
+var borders: = Rect2(1, 1, GRID_Y, GRID_X) # 2 tile border in a 38 x 21 grid (minus the border)
 
 onready var inside_tiles: = $Navigation2D/InsideTiles # path
 onready var outside_tiles: = $Navigation2D/OutsideTiles # outside
@@ -19,7 +23,7 @@ func _ready() -> void:
 	generate_leve()
 	
 func generate_leve() -> void:
-	var walker: = Walker.new(Vector2(19, 11), borders) # 19, 11 are half of the grid in 'borders'
+	var walker: = Walker.new(Vector2(GRID_Y/2, GRID_X/2), borders) # 19, 11 are half of the grid in 'borders'
 	var map: = walker.walk(NUM_OF_STEPS)
 	
 	var player: = Player.instance()

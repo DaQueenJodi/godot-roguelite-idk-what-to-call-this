@@ -44,13 +44,11 @@ func move_to_target() -> void:
 func get_target_path(target_pos: Vector2):
 	path = nav.get_simple_path(global_position, target_pos, false)
 
+#func _on_Area2D_body_entered(body: KinematicBody2D) -> void:
+#	body.take_damage(contact_damage)
+#	print("welp")
 
-func _on_Timer_timeout() -> void:
+
+func _on_TrackingTimer_timeout() -> void:
 	if player != null:
 		get_target_path(player.global_position)
-
-
-
-func _on_Area2D_body_entered(body: KinematicBody2D) -> void:
-	body.take_damage(contact_damage)
-	print("welp")

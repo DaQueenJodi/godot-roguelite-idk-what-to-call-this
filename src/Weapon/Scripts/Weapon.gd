@@ -46,19 +46,13 @@ func _physics_process(delta: float) -> void:
 	for body in overlapping_bodies:
 		on_hit(body)
 	set_physics_process(false)
-	
-	
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("attack"):
-		_change_state(STATES.ATTACK)
-
+func start_attack() -> void:
+	_change_state(STATES.ATTACK)
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack":
 		_change_state(STATES.IDLE)
 		emit_signal("attack_finished")
-
 
 func on_attack() -> void : # override 
 	pass
