@@ -21,6 +21,12 @@ func _handle_movement():
 	var direction = _get_direction()
 	_velocity = _get_velocity(direction)
 	
+	if _velocity.x < 0:
+		change_direction(DIRECTION.LEFT)
+	if _velocity.x > 0:
+		change_direction(DIRECTION.RIGHT) 
+	
+	
 func _get_velocity(direction):
 	return Vector2(
 		speed * direction.x,

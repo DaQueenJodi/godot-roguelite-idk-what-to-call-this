@@ -8,7 +8,7 @@ const NUM_ENEMIES: = 1
 const NUM_OF_STEPS: = 300 # how many steps the walker will take, the bigger the number the bigger the map
 const Player: = preload("res://src/Actors/Player.tscn")
 const ExitDoor: = preload("res://src/Objects/ExitDoor.tscn")
-const BasicEnemy: = preload("res://src/Actors/BasicEnemy.tscn")
+const BasicEnemy: = preload("res://src/Actors/Enemies/BasicEnemy.tscn")
 
 var borders: = Rect2(1, 1, GRID_Y, GRID_X) # 2 tile border in a 38 x 21 grid (minus the border)
 

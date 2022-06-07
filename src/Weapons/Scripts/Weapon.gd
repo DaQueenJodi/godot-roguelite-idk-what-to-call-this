@@ -3,36 +3,32 @@ extends Area2D
 
 signal attack_finished
 
-onready var animation_player: = $AnimationPlayer
 
+var what_to_play: String 
+var what_is_playing: String 
+
+onready var animation_player: = $AnimationPlayer
 # enable _physics_process while attacking, disable when not
 
 
-enum STATES {
-	IDLE,
-	ATTACK
-}
-
-var curr_state: int = STATES.IDLE
+var curr_state: int = 0
 
 func _ready() -> void:
 	set_physics_process(false)
 	
 func attack() -> void:
-	_change_state(STATES.ATTACK)
+	pass
 	
 	
 func _change_state(new_state: int) -> void:
 	if curr_state == new_state:
 		return
 	curr_state = new_state
+	
+func preform_state(state: int) -> void: # override
+	pass
 
-	match curr_state:
-		STATES.IDLE:
-			set_physics_process(false)
-		STATES.ATTACK:
-			set_physics_process(true) 
-			animation_player.play("attack")
+	
 
 func _physics_process(delta: float) -> void:
 	on_attack()
@@ -46,15 +42,18 @@ func _physics_process(delta: float) -> void:
 	for body in overlapping_bodies:
 		on_hit(body)
 	set_physics_process(false)
-func start_attack() -> void:
-	_change_state(STATES.ATTACK)
-
+	
+	
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack":
-		_change_state(STATES.IDLE)
-		emit_signal("attack_finished")
+	on_attack_done()
 
+func get_what_to_play() -> String:
+	return ""
+func start_attack() -> void:
+	pass
 func on_attack() -> void : # override 
 	pass
 func on_hit(body: PhysicsBody2D) -> void: # override
+	pass
+func on_attack_done():
 	pass

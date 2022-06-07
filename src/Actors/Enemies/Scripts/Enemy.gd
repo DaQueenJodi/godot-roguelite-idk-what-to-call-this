@@ -29,5 +29,4 @@ func set_path(value: PoolVector2Array):
 	path = value
 	if value.size() == 0:
 		return
-	print("welp")
 	set_process(true)

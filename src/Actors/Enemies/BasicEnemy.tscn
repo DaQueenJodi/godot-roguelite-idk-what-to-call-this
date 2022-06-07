@@ -1,0 +1,111 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://src/Actors/Enemies/Scripts/BasicEnemy.gd" type="Script" id=1]
+[ext_resource path="res://src/Weapons/Sword.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/actors/BasicEnemy.png" type="Texture" id=3]
+[ext_resource path="res://src/UI/HealthBar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/weapons/Sword.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 14.375, 14.875 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 11.8125, 12.3125 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends MeleeWeapon
+
+var should_be_attacking: = false
+
+
+export var damage: = 10
+
+func get_what_to_play() -> String: # return DIRECTION
+	if owner.direction == owner.DIRECTION.LEFT:
+		return \"attack_left\"
+	if owner.direction == owner.DIRECTION.RIGHT:
+		return \"attack_right\"
+	else:
+		push_error(\"moving neither right nor left\")
+		return \"\"
+
+
+
+func on_hit(body: PhysicsBody2D) -> void:
+	body.take_damage(damage)
+
+
+func _process(delta: float) -> void:
+	if should_be_attacking:
+		start_attack()
+
+
+func _on_Area2D_body_entered(body: KinematicBody2D) -> void:
+	should_be_attacking = true
+	
+
+
+func _on_Area2D_body_exited(body: KinematicBody2D) -> void:
+	should_be_attacking = false
+"
+
+[node name="BasicEnemy" type="KinematicBody2D"]
+scale = Vector2( 1, 0.992308 )
+collision_layer = 3
+collision_mask = 524290
+script = ExtResource( 1 )
+health = 90
+
+[node name="Enemy" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="TrackingTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="HealthBar" parent="." instance=ExtResource( 4 )]
+margin_left = -17.0
+margin_top = -24.0
+margin_right = 13.0
+margin_bottom = -17.0
+
+[node name="Bar" parent="HealthBar" index="0"]
+margin_left = 1.0
+margin_right = 91.99
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2( 0.995475, 0.977401 )
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( -2.375, -0.125 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.1875, 0.3125 )
+shape = SubResource( 1 )
+
+[node name="Sword" parent="." instance=ExtResource( 2 )]
+position = Vector2( -3, -2.0155 )
+scale = Vector2( 1, 1.5 )
+collision_layer = 1
+script = SubResource( 3 )
+
+[node name="CollisionPolygon2D" parent="Sword" index="2"]
+polygon = PoolVector2Array( -3, 5.37468, -3, 14.1085, 1, 14.1085, 1, 4.70284, 7, 4.70284, 7, 2.0155, 3, 2.01551, 3, -9.40568, 0.999999, -10.0775, 0.999998, -14.1085, -3, -14.1085, -4, -9.40568, -5, -8.73385, -5, 2.01551, -9, 2.01551, -9, 5.37468 )
+
+[node name="Sword" type="Sprite" parent="Sword"]
+position = Vector2( -1, -1.84907e-06 )
+texture = ExtResource( 5 )
+
+[node name="SwingTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="TrackingTimer" to="." method="_on_TrackingTimer_timeout"]
+[connection signal="body_entered" from="Area2D" to="Sword" method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="Sword" method="_on_Area2D_body_exited"]
+
+[editable path="HealthBar"]
+[editable path="Sword"]

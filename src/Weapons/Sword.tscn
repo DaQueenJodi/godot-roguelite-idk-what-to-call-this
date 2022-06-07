@@ -1,8 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://src/Weapon/Weapon.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/weapons/Sword.png" type="Texture" id=2]
-[ext_resource path="res://src/Weapon/Scripts/Sword.gd" type="Script" id=3]
+[ext_resource path="res://src/Weapons/MeleeWeapon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Weapons/Scripts/Sword.gd" type="Script" id=3]
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -52,7 +51,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ true ]
+"values": [ false ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath(".:monitoring")
@@ -67,8 +66,60 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
+[sub_resource type="Animation" id=4]
+resource_name = "attack_left"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 0.225313, 35.5062 ),
+"update": 0,
+"values": [ 0.0, -180.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 0.15932, 0.329877, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1.15 ), Vector2( 0.75, 0.75 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [sub_resource type="Animation" id=2]
-resource_name = "attack"
+resource_name = "attack_right"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
@@ -120,6 +171,7 @@ tracks/3/keys = {
 }
 
 [node name="Sword" instance=ExtResource( 1 )]
+visible = false
 position = Vector2( 0, 0 )
 rotation = 3.14159
 collision_layer = 2
@@ -129,10 +181,9 @@ script = ExtResource( 3 )
 
 [node name="AnimationPlayer" parent="." index="0"]
 anims/RESET = SubResource( 3 )
-anims/attack = SubResource( 2 )
+anims/attack_left = SubResource( 4 )
+anims/attack_right = SubResource( 2 )
 
-[node name="Sprite" parent="." index="1"]
-texture = ExtResource( 2 )
+[node name="Sprite" type="Sprite" parent="." index="1"]
 
-[node name="CollisionPolygon2D" parent="." index="2"]
-polygon = PoolVector2Array( -4.99996, -15, -5, 0.999987, -8, 0.99998, -8.00002, 6.99998, -3.00002, 6.99999, -4.00004, 15, 1.99996, 15, 2.99996, 15, 3.99998, 7.00001, 9.99998, 7.00003, 10, 1.00003, 5, 1.00001, 5.00004, -16 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
